@@ -51,10 +51,9 @@ describe('StreakTracker - StreakData interface', () => {
 
 describe('StreakTracker - copy to clipboard behavior', () => {
   beforeEach(() => {
-    Object.defineProperty(global, 'navigator', {
+    Object.defineProperty(globalThis, 'navigator', {
       value: {},
-      writable: true,
-      configurable: true
+      configurable: true,
     });
   });
 
