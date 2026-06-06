@@ -98,7 +98,7 @@ export default function DashboardHeader() {
   const { data: session } = useSession();
   const [isPublic, setIsPublic] = useState<boolean | null>(null);
   const [greeting, setGreeting] = useState<string>("Welcome back");
-  
+
   const [isNightOwl, setIsNightOwl] = useState<boolean>(false);
   const [isEarlyBird, setIsEarlyBird] = useState<boolean>(false);
 
@@ -122,7 +122,7 @@ export default function DashboardHeader() {
       try {
         const res = await fetch("/api/metrics/repos?days=90");
         if (!res.ok) return;
-        
+
         const data = await res.json();
         const commitsArray = data.repos || [];
 
@@ -206,20 +206,20 @@ export default function DashboardHeader() {
     : null;
 
   return (
-    <header className="relative mb-8 overflow-hidden rounded-3xl border border-[var(--border)] bg-[var(--card)]/95 p-5 shadow-[var(--shadow-soft)] backdrop-blur-md transition-all duration-300 hover:shadow-[var(--shadow-medium)] md:p-6">
+    <header className="relative mb-8 overflow-hidden rounded-3xl border border-[var(--border)] bg-[var(--card)]/95 p-4 shadow-[var(--shadow-soft)] backdrop-blur-md transition-all duration-300 hover:shadow-[var(--shadow-medium)] sm:p-5 md:p-6">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--accent)]/40 to-transparent" />
       <div className="pointer-events-none absolute -right-10 -top-12 h-32 w-32 rounded-full bg-[var(--accent)]/10 blur-3xl" />
-      <div className="flex min-w-0  gap-5 items-end justify-between">
+      <div className="relative flex min-w-0  gap-5 items-end justify-between">
 
         {/* Left Section */}
-        <div>
-          <div className="flex flex-wrap items-center gap-2 mb-1">
-            <div className="inline-flex items-center gap-1.5 rounded-full bg-[var(--accent)]/10 border border-[var(--accent)]/20 px-2.5 py-0.5 text-xs font-semibold text-[var(--accent)] transition-all duration-300">
+        <div className="min-w-0 pr-12 md:pr-0">
+          <div className="mb-1 flex min-w-0 flex-wrap items-center gap-2">
+            <div className="inline-flex max-w-full items-center gap-1.5 rounded-full border border-[var(--accent)]/20 bg-[var(--accent)]/10 px-2.5 py-0.5 text-xs font-semibold text-[var(--accent)] transition-all duration-300">
               <span className="relative flex h-1.5 w-1.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--accent)] opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[var(--accent)]"></span>
               </span>
-              <span>{greeting}, {displayName}!</span>
+              <span className="truncate">{greeting}, {displayName}!</span>
             </div>
             {isNightOwl && (
               <div
@@ -247,7 +247,7 @@ export default function DashboardHeader() {
             >
               Dashboard overview
             </p>
-            <h1 className="mt-2 bg-gradient-to-r from-[var(--foreground)] via-[var(--foreground)] to-[var(--accent)] bg-clip-text text-3xl font-extrabold text-transparent md:text-4xl">
+            <h1 className="mt-2 bg-gradient-to-r from-[var(--foreground)] via-[var(--foreground)] to-[var(--accent)] bg-clip-text text-2xl font-extrabold text-transparent sm:text-3xl md:text-4xl">
               Dashboard
             </h1>
             <p
@@ -265,50 +265,46 @@ export default function DashboardHeader() {
         </div>
 
         {/* Right Section */}
+        {/* Right Section */}
+        <div className="w-full min-w-0 md:w-auto">
+          <div className="flex w-full min-w-0 items-center gap-3 overflow-x-auto pb-1 md:w-auto md:justify-end md:overflow-visible md:pb-0">
+            {isPublic === true && session?.githubLogin && (
+              <a
+                href={`/u/${session.githubLogin}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="primary-button inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-semibold"
+                title="View your public profile"
+              >
+                Share Profile
+              </a>
+            )}
 
-        {!isMobile &&
-           <div className="flex min-w-0 flex-col gap-3 sm:items-end">
-           <div className="flex flex-wrap items-center gap-3">
-             {isPublic === true && session?.githubLogin && (
-               <a
-                 href={`/u/${session.githubLogin}`}
-                 target="_blank"
-                 rel="noopener noreferrer"
-                 className="primary-button inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-semibold"
-                 title="View your public profile"
-               >
-                 Share Profile
-               </a>
-             )}
- 
-             <div className="flex items-center gap-2 rounded-2xl border border-[var(--border)] bg-[var(--card-muted)]/50 p-2 shadow-sm backdrop-blur-sm">
-               <div className="transition-transform duration-200 hover:scale-[1.05]">
-                 <KeyboardShortcuts />
-               </div>
- 
-               <div className="transition-transform duration-200 hover:scale-[1.05]">
-                 <NotificationBell />
-               </div>
- 
-               <div className="transition-transform duration-200 hover:scale-[1.05]">
-                 <UserAvatar />
-               </div>
- 
-               <div className="transition-transform duration-200 hover:rotate-12">
-                 <ThemeToggle />
-               </div>
- 
-               <div className="transition-transform duration-200 hover:scale-[1.05]">
-                 <SignOutButton />
-               </div>
-             </div>
-           </div>
-         </div>
-        
-        
-}
-{/* Mobile hamburger button */}
-      {isMobile &&   
+            <div className="flex shrink-0 items-center gap-2 rounded-2xl border border-[var(--border)] bg-[var(--card-muted)]/50 p-2 shadow-sm backdrop-blur-sm">
+              <div className="transition-transform duration-200 hover:scale-[1.05]">
+                <KeyboardShortcuts />
+              </div>
+
+              <div className="transition-transform duration-200 hover:scale-[1.05]">
+                <NotificationBell />
+              </div>
+
+              <div className="transition-transform duration-200 hover:scale-[1.05]">
+                <UserAvatar />
+              </div>
+
+              <div className="transition-transform duration-200 hover:rotate-12">
+                <ThemeToggle />
+              </div>
+
+              <div className="transition-transform duration-200 hover:scale-[1.05]">
+                <SignOutButton />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile hamburger button */}
         <button
         type="button"
         className="inline-flex items-center justify-center self-start rounded-xl border border-[var(--border)] bg-[var(--card-muted)]/70 p-2 text-[var(--card-foreground)] shadow-sm transition-all duration-200 hover:border-[var(--accent)] hover:text-[var(--accent)]  "
@@ -349,7 +345,7 @@ export default function DashboardHeader() {
           </svg>
         )}
       </button>
-}
+
       </div>
 
       {/* Mobile dropdown */}
