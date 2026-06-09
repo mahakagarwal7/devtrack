@@ -72,7 +72,6 @@ export default function ConfirmModal({
 
         <div className="mt-8 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
           <Button
-            type="button"
             variant="outline"
             onClick={onCancel}
             className="w-full sm:w-auto"
@@ -80,7 +79,6 @@ export default function ConfirmModal({
             {cancelLabel}
           </Button>
           <Button
-            type="button"
             variant="default"
             onClick={onConfirm}
             className="w-full sm:w-auto shadow-lg shadow-[var(--accent)]/20"
